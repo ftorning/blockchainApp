@@ -3,9 +3,18 @@ from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
+# from sqlalchemy_utils.functions import database_exists, drop_database
 
 
 Base = declarative_base()
+
+
+def connect_string():
+    return 'sqlite:///blockchain.db'
+
+
+# if database_exists(connect_string()):
+#     drop_database(connect_string())
 
 
 class Chain(Base):
@@ -37,6 +46,9 @@ class User(Base):
     email = Column(String(80), nullable=False, unique=True)
     fname = Column(String(80), nullable=False)
     lname = Column(String(80), nullable=False)
+    balance = Column(Float, nullable=False)
+    picture = Column(String(120))
+    password = Column(String(120), nullable=False)
 
 
 class Transaction(Base):
@@ -54,6 +66,5 @@ class Transaction(Base):
     recipient = relationship(User, foreign_keys=[recipient_id])
 
 
-engine = create_engine('sqlite:///blockchain.db')
-
+engine = create_engine(connect_string())
 Base.metadata.create_all(engine)

@@ -26,9 +26,13 @@ session.add(block)
 
 # create users and an admin account for mining rewards
 
-admin_account = User(email='None', fname='Admin', lname='Blockchain')
-user1 = User(email='ftorning@gmail.com', fname='Fraser', lname='Torning')
-user2 = User(email='stephaniekaczmarski@gmail.com', fname='Stephanie', lname='Kaczmarski')
+admin_account = User(email='None', fname='Admin', lname='Blockchain', balance=1000000,
+                     password='password', picture='https://s3.amazonaws.com/blockchainproject/anonymous-512.png')
+user1 = User(email='ftorning@gmail.com', fname='Fraser', lname='Torning', balance=100,
+             password='password', picture='https://s3.amazonaws.com/blockchainproject/fet.jpg')
+user2 = User(email='stephaniekaczmarski@gmail.com', fname='Stephanie', lname='Kaczmarski',  balance=100,
+             password='password', picture='https://s3.amazonaws.com/blockchainproject/snk.jpg')
+
 
 session.add(admin_account)
 session.add(user1)
@@ -36,8 +40,8 @@ session.add(user2)
 
 # create transactions
 
-tx1 = Transaction(amount=2, timestamp=datetime.now(), block_id=1, sender_id=1, recipient_id=2)
-tx2 = Transaction(amount=3, timestamp=datetime.now(), block_id=1, sender_id=2, recipient_id=1)
+tx1 = Transaction(amount=2, timestamp=datetime.now(), block_id=1, sender_id=2, recipient_id=3)
+tx2 = Transaction(amount=3, timestamp=datetime.now(), block_id=1, sender_id=3, recipient_id=2)
 
 session.add(tx1)
 session.add(tx2)
