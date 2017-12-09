@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.fname }} Profile{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <h1>{{ user.fname }} {{ user.lname }}</h1>
+    <img class="profile-img" src="{{ user.picture }}" alt="User Profile Picture" />
+{% endblock %}

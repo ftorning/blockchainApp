@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+{#        <a class="navbar-left" href="#"><img class="responsive" style="height:50px" src="https://placeimg.com/640/480/people"></a>#}
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a href="{{ url_for('home', user_id=user.id) }}">Home</a></li>
+          <li><a href='{{ url_for('new_transaction', user_id=user.id) }}'>New Transaction</a></li>
+          <li><a href='{{ url_for('transactions', user_id=user.id) }}'>History</a></li>
+          <li><a href='{{ url_for('mine_block', user_id=user.id) }}'>Mine</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right" role="menu">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+            <ul class="dropdown-menu">
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Employee</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Contractor/Guest</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </nav>
+    <br>
+    <br>
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

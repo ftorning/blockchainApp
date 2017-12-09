@@ -3,6 +3,8 @@ from sqlalchemy import Column, ForeignKey, Integer, String, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
+
+# for testing only
 # from sqlalchemy_utils.functions import database_exists, drop_database
 
 
@@ -12,6 +14,7 @@ Base = declarative_base()
 def connect_string():
     return 'sqlite:///blockchain.db'
 
+# not needed unless
 
 # if database_exists(connect_string()):
 #     drop_database(connect_string())
