@@ -1,9 +1,8 @@
 import hashlib
 import json
 from time import time
-from textwrap import dedent
 from uuid import uuid4
-
+import database_setup
 from flask import Flask, jsonify, request
 
 
@@ -74,8 +73,7 @@ node_identifier = str(uuid4()).replace('-', '')
 blockchain = Blockchain()
 
 
-@app.route('/mine', methods=['GET'])
-def mine():
+def mine(user_id):
     last_block = blockchain.last_block
     last_proof = last_block['proof']
     proof = blockchain.proof_of_work(last_proof)
@@ -102,7 +100,6 @@ def mine():
     return jsonify(response), 200
 
 
-@app.route('/transaction/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
 
@@ -116,7 +113,6 @@ def new_transaction():
     return jsonify(response), 201
 
 
-@app.route('/chain', methods=['GET'])
 def full_chain():
     response = {
         'chain': blockchain.chain,

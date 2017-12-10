@@ -18,7 +18,7 @@
     <div class="container-fluid">
       <div class="navbar-header">
 {#        <a class="navbar-left" href="#"><img class="responsive" style="height:50px" src="https://placeimg.com/640/480/people"></a>#}
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -33,18 +33,28 @@
         </ul>
         <ul class="nav navbar-nav navbar-right" role="menu">
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-log-in"></span> My Account</a>
             <ul class="dropdown-menu">
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Employee</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Contractor/Guest</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href='{{ url_for('profile', user_id=user.id) }}'>My Profile</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href='{{ url_for('edit_profile', user_id=user.id) }}'>Edit</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href='{{ url_for('home', user_id=None) }}'>Log Out</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href='{{ url_for('delete_profile', user_id=user.id) }}'>Delete Account</a></li>
             </ul>
           </li>
         </ul>
       </div>
     </div>
     </nav>
-    <br>
-    <br>
+    <br><br><br><br>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
     {% block content %}
     {% endblock %}
 
