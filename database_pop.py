@@ -40,8 +40,10 @@ session.add(user2)
 
 # create transactions
 
-tx1 = Transaction(amount=2, timestamp=datetime.now(), block_id=1, sender_id=2, recipient_id=3)
-tx2 = Transaction(amount=3, timestamp=datetime.now(), block_id=1, sender_id=3, recipient_id=2)
+tx1 = Transaction(amount=2, timestamp=datetime.now(), block_id=1,
+                  sender_email='ftorning@gmail.com', recipient_email='stephaniekaczmarski@gmail.com')
+tx2 = Transaction(amount=3, timestamp=datetime.now(), block_id=1,
+                  sender_email='stephaniekaczmarski@gmail.com', recipient_email='ftorning@gmail.com')
 
 session.add(tx1)
 session.add(tx2)

@@ -12,19 +12,26 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <form action="{{ url_for('create_user') }}" method="post">
-        <p>First Name:</p>
-        <input type="text" size="80" name="fname">
-        <p>Last Name:</p>
-        <input type="text" size="80" name="lname">
-        <p>Email:</p>
-        <input type="text" size="80" name="email">
-        <p>Password:</p>
-        <input type="text" size="80" name="password">
-        <p>Add Funds:</p>
-        <input type="number" size="80" name="add_funds">
-    <input type="submit" value="Create Account">
-    <a href="{{ url_for('home', user_id=None) }}">Cancel</a>
-    </form>
+    <div class="container-fluid">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <form action="{{ url_for('create_user') }}" method="post">
+                <p>First Name:</p>
+                <input type="text" size="80" name="fname">
+                <p>Last Name:</p>
+                <input type="text" size="80" name="lname">
+                <p>Email:</p>
+                <input type="text" size="80" name="email">
+                <p>Password:</p>
+                <input type="text" size="80" name="password">
+                <p>Add Funds:</p>
+                <input type="number" size="80" name="add_funds">
+                <br><br>
+            <input type="submit" value="Create Account">
+            <a href="{{ url_for('home', user_id=None) }}">Cancel</a>
+            </form>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
 </body>
 </html>

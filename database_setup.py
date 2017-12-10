@@ -4,8 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 
-# for testing only
-# from sqlalchemy_utils.functions import database_exists, drop_database
+
+
 
 
 Base = declarative_base()
@@ -14,8 +14,8 @@ Base = declarative_base()
 def connect_string():
     return 'sqlite:///blockchain.db'
 
-# not needed unless
-
+# for testing only
+# from sqlalchemy_utils.functions import database_exists, drop_database
 # if database_exists(connect_string()):
 #     drop_database(connect_string())
 
@@ -62,11 +62,11 @@ class Transaction(Base):
     amount = Column(Float, nullable=False)
     timestamp = Column(DateTime, nullable=False)
     block_id = Column(Integer, ForeignKey('block.id'))
-    sender_id = Column(Integer, ForeignKey('user.id'))
-    recipient_id = Column(Integer, ForeignKey('user.id'))
+    sender_email = Column(String(80), ForeignKey('user.email'))
+    recipient_email = Column(String(80), ForeignKey('user.email'))
     block = relationship(Block)
-    sender = relationship("User", foreign_keys=[sender_id])
-    recipient = relationship(User, foreign_keys=[recipient_id])
+    sender = relationship(User, foreign_keys=[sender_email])
+    recipient = relationship(User, foreign_keys=[recipient_email])
 
 
 engine = create_engine(connect_string())

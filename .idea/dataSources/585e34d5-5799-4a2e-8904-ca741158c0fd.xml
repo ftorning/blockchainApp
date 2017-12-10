@@ -103,13 +103,13 @@
       <Position>3</Position>
       <DataType>INTEGER|0</DataType>
     </column>
-    <column id="31" parent="9" name="sender_id">
+    <column id="31" parent="9" name="sender_email">
       <Position>4</Position>
-      <DataType>INTEGER|0</DataType>
+      <DataType>VARCHAR(80)|0</DataType>
     </column>
-    <column id="32" parent="9" name="recipient_id">
+    <column id="32" parent="9" name="recipient_email">
       <Position>5</Position>
-      <DataType>INTEGER|0</DataType>
+      <DataType>VARCHAR(80)|0</DataType>
     </column>
     <key id="33" parent="9">
       <ColNames>id</ColNames>
@@ -121,14 +121,14 @@
       <RefColNames>id</RefColNames>
     </foreign-key>
     <foreign-key id="35" parent="9">
-      <ColNames>sender_id</ColNames>
+      <ColNames>sender_email</ColNames>
       <RefTableName>user</RefTableName>
-      <RefColNames>id</RefColNames>
+      <RefColNames>email</RefColNames>
     </foreign-key>
     <foreign-key id="36" parent="9">
-      <ColNames>recipient_id</ColNames>
+      <ColNames>recipient_email</ColNames>
       <RefTableName>user</RefTableName>
-      <RefColNames>id</RefColNames>
+      <RefColNames>email</RefColNames>
     </foreign-key>
     <column id="37" parent="10" name="id">
       <DataType>INTEGER|0</DataType>

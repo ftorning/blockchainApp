@@ -4,5 +4,39 @@
     {{ super() }}
 {% endblock %}
 {% block content %}
-    <h1>testing</h1>
+    <h3>Incoming Transactions</h3>
+    <table class="table table-hover">
+    <thead>
+        <th>Sender</th>
+        <th>Amount</th>
+        <th>Date/Time</th>
+    </thead>
+    <tbody>
+    {% for t in tx_in %}
+        <tr>
+            <td>{{ t.sender_email }}</td>
+            <td>{{ t.amount }}</td>
+            <td>{{ t.timestamp }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <br><br>
+    <h3>Outgoing Transactions</h3>
+    <table class="table table-hover">
+    <thead>
+        <th>Recipient</th>
+        <th>Amount</th>
+        <th>Date/Time</th>
+    </thead>
+    <tbody>
+    {% for t in tx_out %}
+        <tr>
+            <td>{{ t.recipient_email }}</td>
+            <td>{{ t.amount }}</td>
+            <td>{{ t.timestamp }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
 {% endblock %}

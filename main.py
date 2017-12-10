@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, flash
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, and_
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Block, User, Transaction, connect_string
 import os
@@ -125,23 +125,24 @@ def delete_profile(user_id=None):
         return render_template("landing.html")
 
 
-
 @app.route('/<user_id>/transactions/', methods=['GET'])
 def transactions(user_id=None):
     if user_id:
         user = session.query(User).filter_by(id=user_id).one()
-        transactions_list = session.query(Transaction.recipient).all()
-        return render_template("transactions.html", user=user)
+        tx_in = session.query(Transaction).filter(Transaction.recipient_email == user.email)
+        tx_out = session.query(Transaction).filter(Transaction.sender_email == user.email)
+        return render_template("transactions.html", user=user, tx_in=tx_in, tx_out=tx_out)
     else:
         return render_template("landing.html")
 
 
 @app.route('/<user_id>/transactions/new/', methods=['GET', 'POST'])
 def new_transaction(user_id=None):
+    user_list = session.query(User).filter_by(id > 1)
     if user_id:
         user = session.query(User).filter_by(id=user_id).one()
         # transactions_list = session.query(Transaction.recipient).all()
-        return render_template("transactions.html", user=user)
+        return render_template("new_transaction.html", user=user, user_list=user_list)
     else:
         return render_template("landing.html")
 

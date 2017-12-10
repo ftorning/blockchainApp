@@ -6,71 +6,57 @@ import database_setup
 from flask import Flask, jsonify, request
 
 
-class Blockchain(object):
-    def __init__(self):
-        self.chain = []
-        self.current_transactions = []
+def new_block(proof, previous_hash=None):
 
-        # genesis block for new chains
-        self.new_block(previous_hash=1, proof=0)
+    block = {
+        'index': len(self.chain) + 1,
+        'timestamp': time(),
+        'transactions': self.current_transactions,
+        'proof': proof,
+        'previous_hash': previous_hash or self.hash(self.chain[-1])
+    }
 
-    def new_block(self, proof, previous_hash=None):
-        block = {
-            'index': len(self.chain) + 1,
-            'timestamp': time(),
-            'transactions': self.current_transactions,
-            'proof': proof,
-            'previous_hash': previous_hash or self.hash(self.chain[-1])
-        }
+    # reset transaction list
+    self.current_transactions = []
 
-        # reset transaction list
-        self.current_transactions = []
+    # append new block to chain
+    self.chain.append(block)
 
-        # append new block to chain
-        self.chain.append(block)
-
-        return block
+    return block
 
 
-    def new_transaction(self, sender, recipient, amount):
-        self.current_transactions.append({
-            'sender': sender,
-            'recipient': recipient,
-            'amount': amount,
-        })
+def new_transaction(self, sender, recipient, amount):
+    self.current_transactions.append({
+        'sender': sender,
+        'recipient': recipient,
+        'amount': amount,
+    })
 
-        return self.last_block['index'] + 1
+    return self.last_block['index'] + 1
 
-    @staticmethod
-    def hash(block):
-        block_string = json.dumps(block, sort_keys=True).encode()
-        return hashlib.sha256(block_string).hexdigest()
-
-
-    @property
-    def last_block(self):
-        return self.chain[-1]
-
-    def proof_of_work(self, last_proof):
-
-        proof = 0
-        while self.valid_proof(last_proof, proof) is False:
-            proof += 1
-
-        return proof
-
-    @staticmethod
-    def valid_proof(last_proof, proof):
-        guess = f'{last_proof}{proof}'.encode()
-        guess_hash = hashlib.sha256(guess).hexdigest()
-        return guess_hash[:4] == "0000"
+@staticmethod
+def hash(block):
+    block_string = json.dumps(block, sort_keys=True).encode()
+    return hashlib.sha256(block_string).hexdigest()
 
 
-app = Flask(__name__)
+@property
+def last_block(self):
+    return self.chain[-1]
 
-node_identifier = str(uuid4()).replace('-', '')
 
-blockchain = Blockchain()
+def proof_of_work(self, last_proof):
+    proof = 0
+    while self.valid_proof(last_proof, proof) is False:
+        proof += 1
+
+    return proof
+
+@staticmethod
+def valid_proof(last_proof, proof):
+    guess = f'{last_proof}{proof}'.encode()
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    return guess_hash[:4] == "0000"
 
 
 def mine(user_id):
@@ -89,19 +75,9 @@ def mine(user_id):
     previous_hash = blockchain.hash(last_block)
     block = blockchain.new_block(proof, previous_hash)
 
-    response = {
-        'message': "New block added",
-        'index': block['index'],
-        'transactions': block['transactions'],
-        'proof': block['proof'],
-        'previous_hash': block['previous_hash'],
-    }
-
-    return jsonify(response), 200
-
 
 def new_transaction():
-    values = request.get_json()
+    values
 
     required = ['sender', 'recipient', 'amount']
     if not all(k in values for k in required):

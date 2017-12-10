@@ -14,6 +14,7 @@
     {% endblock %}
 </head>
 <body>
+    <div class="container">
     <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -33,7 +34,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right" role="menu">
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-log-in"></span> My Account</a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-log-in"></span> {{ user.fname }} {{ user.lname }}</a>
             <ul class="dropdown-menu">
               <li role="presentation"><a role="menuitem" tabindex="-1" href='{{ url_for('profile', user_id=user.id) }}'>My Profile</a></li>
               <li role="presentation"><a role="menuitem" tabindex="-1" href='{{ url_for('edit_profile', user_id=user.id) }}'>Edit</a></li>
@@ -57,6 +58,6 @@
     {% endwith %}
     {% block content %}
     {% endblock %}
-
+    </div>
 </body>
 </html>
