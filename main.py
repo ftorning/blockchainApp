@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, flash
-from sqlalchemy import create_engine, and_, func
+from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Block, User, Transaction, connect_string
+from database_setup import Base, Block, User, Transaction
 from datetime import datetime
 import blockchain
 
