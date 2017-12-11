@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, and_, func
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Block, User, Transaction, connect_string
 from datetime import datetime
-import os
+import blockchain
 
 
 app = Flask(__name__)
@@ -111,6 +111,26 @@ def edit_profile(user_id=None):
         return render_template("landing.html")
 
 
+@app.route('/<user_id>/profile/add_funds/', methods=['GET', 'POST'])
+def add_funds(user_id=None):
+    if user_id:
+        user = session.query(User).filter_by(id=user_id).one()
+        if request.method == 'POST':
+            if request.form['amount']:
+                user.balance += float(request.form['amount'])
+            else:
+                flash('Please enter the amount of funds to add')
+                return redirect(url_for('add_funds', user_id=user.id))
+            session.add(user)
+            session.commit()
+            flash('Funds successfully added!')
+            return redirect(url_for('profile', user_id=user.id))
+        else:
+            return render_template('add_funds.html', user=user)
+    else:
+        return render_template("landing.html")
+
+
 @app.route('/<user_id>/profile/delete/', methods=['GET', 'POST'])
 def delete_profile(user_id=None):
     if user_id:
@@ -143,13 +163,17 @@ def new_transaction(user_id=None):
         user = session.query(User).filter_by(id=user_id).one()
         rec_list = session.query(User).filter((User.id > 1) & (User.id != user.id)).all()
         block = session.query(func.max(Block.id)).one()
+        print(block)
         if request.method == 'POST':
             tx = Transaction()
             if request.form['recipient']:
                 tx.recipient_email = request.form['recipient']
-            if request.form['amount'] and request.form['amount'] <= user.balance:
-                tx.amount = request.form['amount']
-            tx.block_id = block.id
+            if request.form['amount'] and float(request.form['amount']) <= user.balance:
+                tx.amount = float(request.form['amount'])
+            else:
+                flash('Insufficient funds')
+                return render_template("new_transaction.html", user=user, rec_list=rec_list, block=block)
+            tx.block_id = block[0]
             tx.sender_email = user.email
             tx.timestamp = datetime.now()
             user.balance = user.balance - tx.amount
@@ -164,19 +188,99 @@ def new_transaction(user_id=None):
 
 
 @app.route('/<user_id>/mine/', methods=['GET', 'POST'])
-def mine_block(user_id=None):
-    return '<h1>mine a block</h1>'
+def mine(user_id=None):
+    if user_id:
+        user = session.query(User).filter_by(id=user_id).one()
+        block_id = session.query(func.max(Block.id)).one()
+        block = session.query(Block).filter(Block.id == block_id[0]).one()
+        txs = session.query(Transaction).filter(Transaction.block_id == block_id[0]).all()
+        tx_cnt = len(txs)
+        return render_template("mine.html", user=user, block=block, txs=txs, tx_cnt=tx_cnt)
+    else:
+        return render_template("landing.html")
 
 
-@app.route('/<user_id>/summary/', methods=['GET', 'POST'])
-def chain_summary(user_id=None):
-    return '<h1>summary page</h1>'
+@app.route('/<user_id>/mine/<block_id>', methods=['GET', 'POST'])
+def mine_block(user_id=None, block_id=None):
+    if user_id and block_id:
+        user = session.query(User).filter_by(id=user_id).one()
+        block = session.query(Block).filter_by(id=block_id).one()
+        new_blk = Block()
+        new_blk.index = int(block.index) + 1
+        new_blk.timestamp = datetime.now()
+        new_blk.proof = blockchain.proof_of_work(block.proof)
+        new_blk.previous_hash = blockchain.hash_block(block)
+        new_blk.chain_id = block.chain_id
+        session.add(new_blk)
+        session.commit()
+
+        miner_tx = Transaction()
+        miner_tx.amount = 100
+        miner_tx.timestamp = datetime.now()
+        miner_tx.block_id = new_blk.id
+        miner_tx.sender_email = 'Mine Reward'
+        miner_tx.recipient_email = user.email
+        session.add(miner_tx)
+        session.commit()
+
+        flash('Mining Successful!')
+        return redirect(url_for('mine', user_id=user.id))
+    else:
+        return render_template("landing.html")
 
 
-@app.route('/<user_id>/summary/block_id/', methods=['GET', 'POST'])
-def block_summary(user_id=None, block_id=None):
-    return '<h1>summary page</h1>'
+# @staticmethod
+# def valid_proof(last_proof, proof):
+#     guess = f'{last_proof}{proof}'.encode()
+#     guess_hash = hashlib.sha256(guess).hexdigest()
+#     return guess_hash[:4] == "0000"
+#
+#
+# def proof_of_work(last_proof):
+#     proof = 0
+#     while valid_proof(last_proof, proof) is False:
+#         proof += 1
+#     return proof
+#
+#
+# def _hash(block):
+#     block_string = json.dumps(block, sort_keys=True).encode()
+#     return hashlib.sha256(block_string).hexdigest()
 
+# def mine(user_id):
+#     last_block = blockchain.last_block
+#     last_proof = last_block['proof']
+#     proof = blockchain.proof_of_work(last_proof)
+#
+#     # reward the miner
+#     blockchain.new_transaction(
+#         sender="0",
+#         recipient=node_identifier,
+#         amount=1,
+#     )
+#
+#     # add new block to the chain
+#     previous_hash = blockchain.hash(last_block)
+#     block = blockchain.new_block(proof, previous_hash)
+#
+#
+# def new_block(proof, previous_hash=None):
+#
+#     block = {
+#         'index': len(self.chain) + 1,
+#         'timestamp': time(),
+#         'transactions': self.current_transactions,
+#         'proof': proof,
+#         'previous_hash': previous_hash or self.hash(self.chain[-1])
+#     }
+#
+#     # reset transaction list
+#     self.current_transactions = []
+#
+#     # append new block to chain
+#     self.chain.append(block)
+#
+#     return block
 
 
 if __name__ == '__main__':

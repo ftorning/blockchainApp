@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign In</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- jQuery library -->
@@ -12,13 +12,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="col-xs-4"></div>
-        <div class="col-xs-4">
-            <a href="{{ url_for('create_user') }}">Create Account    </a>
-            <a href="{{ url_for('sign_in') }}">Sign in</a>
+    <div class="jumbotron vertical-center">
+        <div class="container">
+            <a href="{{ url_for('create_user') }}" class="btn btn-default landing-btn" role="button">Create Account</a>
+            <br><br><br>
+            <a href="{{ url_for('sign_in') }}" class="btn btn-default landing-btn" role="button">Sign In</a>
         </div>
-        <div class="col-xs-4"></div>
     </div>
 </body>
 </html>

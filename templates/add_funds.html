@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Add Funds{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <h3>Add Funds</h3>
+    <p>Current balance: {{ user.balance }}</p>
+    <form action="{{ url_for('add_funds', user_id=user.id) }}" method="POST">
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input type="number" class="form-control" id="amount" name="amount">
+            <br>
+            <input type="submit" class="btn btn-success" value="Submit Button">
+            <a href="{{ url_for('profile', user_id=user.id) }}" class="btn btn-warning" role="button">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

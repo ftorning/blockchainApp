@@ -6,17 +6,18 @@
 {% block content %}
     <h3>Send Funds</h3>
     <p>Current balance: {{ user.balance }}</p>
-    <form action="{{ url_for('new_transaction', user_id=user.id) }}" method="post">
+    <form action="{{ url_for('new_transaction', user_id=user.id) }}" method="POST">
         <div class="form-group">
             <label for="recipient">Select Recipient:</label>
-            <select class="form-control" id="recipient">
+            <select class="form-control" id="recipient" name="recipient">
                 {% for rec in rec_list %}
                     <option>{{ rec.email }}</option>
                 {% endfor %}
             </select>
             <br>
             <label for="amount">Amount:</label>
-            <input type="number" class="for-control" id="amount">
+            <input type="number" class="form-control" id="amount" name="amount">
+            <br>
             <input type="submit" class="btn btn-success" value="Submit Button">
             <a href="{{ url_for('home', user_id=user.id) }}" class="btn btn-warning" role="button">Cancel</a>
         </div>

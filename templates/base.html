@@ -30,7 +30,7 @@
           <li><a href="{{ url_for('home', user_id=user.id) }}">Home</a></li>
           <li><a href='{{ url_for('new_transaction', user_id=user.id) }}'>New Transaction</a></li>
           <li><a href='{{ url_for('transactions', user_id=user.id) }}'>History</a></li>
-          <li><a href='{{ url_for('mine_block', user_id=user.id) }}'>Mine</a></li>
+          <li><a href='{{ url_for('mine', user_id=user.id) }}'>Mine</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right" role="menu">
           <li class="dropdown">

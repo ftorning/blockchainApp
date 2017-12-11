@@ -23,12 +23,12 @@
                 <p>Email:</p>
                 <input type="text" size="80" name="email">
                 <p>Password:</p>
-                <input type="text" size="80" name="password">
+                <input type="password" size="80" name="password">
                 <p>Add Funds:</p>
                 <input type="number" size="80" name="add_funds">
                 <br><br>
-            <input type="submit" value="Create Account">
-            <a href="{{ url_for('home', user_id=None) }}">Cancel</a>
+            <input type="submit" class="btn btn-success" value="Create Account">
+            <a href="{{ url_for('home', user_id=None) }}" class="btn btn-warning" role="button">Cancel</a>
             </form>
         </div>
         <div class="col-xs-2"></div>

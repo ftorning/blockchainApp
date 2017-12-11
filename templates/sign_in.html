@@ -13,8 +13,10 @@
 </head>
 <body>
     <div class="container-fluid">
+        <div class="row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
+
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
                 <ul class=flashes>
@@ -24,17 +26,22 @@
                 </ul>
                 {% endif %}
             {% endwith %}
-            <form action="{{ url_for('sign_in') }}" method="post">
-                <p>Email:</p>
-                <input type="text" size="80" name="email">
-                <p>Password:</p>
-                <input type="text" size="80" name="password">
-                <br><br>
-            <input type="submit" value="Sign In">
-            <a href="{{ url_for('home', user_id=None) }}">Cancel</a>
-            </form>
+
+    <form action="{{ url_for('sign_in') }}" method="POST">
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" class="form-control" id="email" name="email">
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password">
+            <br>
+            <input type="submit" class="btn btn-success" value="Sign In">
+            <a href="{{ url_for('home', user_id=None) }}" class="btn btn-warning" role="button">Cancel</a>
+        </div>
+    </form>
         </div>
         <div class="col-xs-2"></div>
+        </div>
     </div>
 </body>
 </html>

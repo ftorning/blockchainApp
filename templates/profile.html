@@ -6,6 +6,7 @@
 {% block content %}
     <h1>{{ user.fname }} {{ user.lname }}</h1>
     <img class="profile-img" src="{{ user.picture }}" alt="User Profile Picture" />
+    <a href="{{ url_for('add_funds', user_id=user.id) }}" class="btn btn-info" role="button">Add Funds</a>
 {% endblock %}
 
 

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Mine{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <h3>Current Block</h3>
+    <table class="table table-hover">
+    <thead>
+        <th>Block</th>
+        <th>Transaction Count</th>
+        <th>Time Created</th>
+    </thead>
+    <tbody>
+         <tr>
+            <td>{{ block.index }}</td>
+            <td>{{ tx_cnt }}</td>
+            <td>{{ block.timestamp }}</td>
+        </tr>
+    </tbody>
+    </table>
+    <h3>Block Transactions</h3>
+    <table class="table table-hover">
+    <thead>
+        <th>Transaction ID</th>
+        <th>Amount</th>
+        <th>Date</th>
+    </thead>
+    <tbody>
+    {% for t in txs %}
+        <tr>
+            <td>{{ t.id }}</td>
+            <td>{{ t.amount }}</td>
+            <td>{{ t.timestamp }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <br>
+    <form action="{{ url_for('mine_block', user_id=user.id, block_id=block.id) }}" method="post">
+        <input type="submit" class="btn btn-success" value="Mine Block">
+    </form>
+{% endblock %}
