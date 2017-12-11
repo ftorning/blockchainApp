@@ -15,20 +15,23 @@
     <div class="container-fluid">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
-            <form action="{{ url_for('create_user') }}" method="post">
-                <p>First Name:</p>
-                <input type="text" size="80" name="fname">
-                <p>Last Name:</p>
-                <input type="text" size="80" name="lname">
-                <p>Email:</p>
-                <input type="text" size="80" name="email">
-                <p>Password:</p>
-                <input type="password" size="80" name="password">
-                <p>Add Funds:</p>
-                <input type="number" size="80" name="add_funds">
-                <br><br>
-            <input type="submit" class="btn btn-success" value="Create Account">
-            <a href="{{ url_for('home', user_id=None) }}" class="btn btn-warning" role="button">Cancel</a>
+
+            <form action="{{ url_for('create_user') }}" method="POST">
+                <div class="form-group">
+                    <label for="fname">First Name:</label>
+                    <input type="text" class="form-control" id="fname" name="fname">
+                    <label for="lname">Last Name:</label>
+                    <input type="text" class="form-control" id="lname" name="lname">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                    <label for="add_funds">Add Funds:</label>
+                    <input type="number" class="form-control" id="add_funds" name="add_funds">
+                    <br>
+                    <input type="submit" class="btn btn-success" value="Sign In">
+                    <a href="{{ url_for('home', user_id=None) }}" class="btn btn-warning" role="button">Cancel</a>
+                </div>
             </form>
         </div>
         <div class="col-xs-2"></div>

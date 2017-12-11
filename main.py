@@ -98,8 +98,6 @@ def edit_profile(user_id=None):
                 user.fname = request.form['fname']
             if request.form['lname']:
                 user.lname = request.form['lname']
-            if request.form['email']:
-                user.email = request.form['email']
             if request.form['password']:
                 user.password = request.form['password']
             session.add(user)

@@ -27,18 +27,18 @@
                 {% endif %}
             {% endwith %}
 
-    <form action="{{ url_for('sign_in') }}" method="POST">
-        <div class="form-group">
-            <label for="email">Email Address:</label>
-            <input type="email" class="form-control" id="email" name="email">
-            <br>
-            <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" name="password">
-            <br>
-            <input type="submit" class="btn btn-success" value="Sign In">
-            <a href="{{ url_for('home', user_id=None) }}" class="btn btn-warning" role="button">Cancel</a>
-        </div>
-    </form>
+            <form action="{{ url_for('sign_in') }}" method="POST">
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                    <br>
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                    <br>
+                    <input type="submit" class="btn btn-success" value="Sign In">
+                    <a href="{{ url_for('home', user_id=None) }}" class="btn btn-warning" role="button">Cancel</a>
+                </div>
+            </form>
         </div>
         <div class="col-xs-2"></div>
         </div>

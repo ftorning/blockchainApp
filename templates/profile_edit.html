@@ -4,17 +4,18 @@
     {{ super() }}
 {% endblock %}
 {% block content %}
-    <form action="{{ url_for('edit_profile', user_id=user.id) }}" method="post">
-        <p>First Name:</p>
-        <input type="text" size="80" name="fname" placeholder="{{ user.fname }}">
-        <p>Last Name:</p>
-        <input type="text" size="80" name="lname" placeholder="{{ user.lname }}">
-        <p>Email:</p>
-        <input type="text" size="80" name="email" placeholder="{{ user.email }}">
-        <p>Password:</p>
-        <input type="text" size="80" name="password" placeholder="{{ user.password }}">
-    <br><br>
-    <input type="submit" value="Edit">
-    <a href="{{ url_for('profile', user_id=user_id) }}">Cancel</a>
+
+    <form action="{{ url_for('edit_profile', user_id=user.id) }}" method="POST">
+        <div class="form-group">
+            <label for="fname">First Name:</label>
+            <input type="text" class="form-control" id="fname" name="fname" placeholder="{{ user.fname }}">
+            <label for="lname">Last Name:</label>
+            <input type="text" class="form-control" id="lname" name="lname" placeholder="{{ user.lname }}">
+            <label for="password">New Password:</label>
+            <input type="password" class="form-control" id="password" name="password">
+            <br>
+            <input type="submit" class="btn btn-success" value="Edit Account">
+            <a href="{{ url_for('home', user_id=user.id) }}" class="btn btn-warning" role="button">Cancel</a>
+        </div>
     </form>
 {% endblock %}
