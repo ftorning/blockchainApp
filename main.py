@@ -1,7 +1,8 @@
 from flask import Flask, request, render_template, redirect, url_for, flash
-from sqlalchemy import create_engine, and_
+from sqlalchemy import create_engine, and_, func
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Block, User, Transaction, connect_string
+from datetime import datetime
 import os
 
 
@@ -80,8 +81,8 @@ def profile(user_id=None):
         user = session.query(User).filter_by(id=user_id).one()
         pending = session.query(Transaction, Block) \
             .filter((Block.proof == 0) &
-                    ((Transaction.sender_id == user_id) |
-                     (Transaction.recipient_id == user_id)))
+                    ((Transaction.sender_email == user.email) |
+                     (Transaction.recipient_email == user.email)))
 
         return render_template("profile.html", user=user, pending=pending)
     else:
@@ -138,11 +139,26 @@ def transactions(user_id=None):
 
 @app.route('/<user_id>/transactions/new/', methods=['GET', 'POST'])
 def new_transaction(user_id=None):
-    user_list = session.query(User).filter_by(id > 1)
     if user_id:
         user = session.query(User).filter_by(id=user_id).one()
-        # transactions_list = session.query(Transaction.recipient).all()
-        return render_template("new_transaction.html", user=user, user_list=user_list)
+        rec_list = session.query(User).filter((User.id > 1) & (User.id != user.id)).all()
+        block = session.query(func.max(Block.id)).one()
+        if request.method == 'POST':
+            tx = Transaction()
+            if request.form['recipient']:
+                tx.recipient_email = request.form['recipient']
+            if request.form['amount'] and request.form['amount'] <= user.balance:
+                tx.amount = request.form['amount']
+            tx.block_id = block.id
+            tx.sender_email = user.email
+            tx.timestamp = datetime.now()
+            user.balance = user.balance - tx.amount
+            session.add(tx)
+            session.add(user)
+            session.commit()
+            flash('Transaction successful!')
+            return redirect(url_for('home', user_id=user.id))
+        return render_template("new_transaction.html", user=user, rec_list=rec_list, block=block)
     else:
         return render_template("landing.html")
 
