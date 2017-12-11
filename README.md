@@ -12,5 +12,8 @@ Created By: Fraser Torning
 5. Run `$>python main.py` to start Flask
 6. Open browser to [http://127.0.0.1:5000/]
 
+## Recording
+
+https://youtu.be/ukYpchxKgwI
 
 
