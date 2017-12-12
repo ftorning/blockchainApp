@@ -20,6 +20,7 @@ def connect_string():
 #     drop_database(connect_string())
 
 
+# initial chain instantiated by database_pop
 class Chain(Base):
 
     __tablename__ = 'chain'

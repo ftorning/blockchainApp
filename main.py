@@ -17,12 +17,11 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-
+# flask routes
 @app.route('/', methods=['GET'])
 @app.route('/<int:user_id>/', methods=['GET'])
 @app.route('/<int:user_id>/home/', methods=['GET'])
 def home(user_id=None):
-    print('id = {}'.format(user_id))
     if user_id:
         user = session.query(User).filter_by(id=user_id).one()
         return render_template("home.html", user=user)
@@ -55,7 +54,6 @@ def create_user():
 @app.route('/sign_in/', methods=['GET', 'POST'])
 def sign_in():
     if request.method == 'POST':
-        print(request.form)
         if request.form['email']:
             try:
                 user = session.query(User).filter_by(email=request.form['email']).one()
@@ -161,7 +159,6 @@ def new_transaction(user_id=None):
         user = session.query(User).filter_by(id=user_id).one()
         rec_list = session.query(User).filter((User.id > 1) & (User.id != user.id)).all()
         block = session.query(func.max(Block.id)).one()
-        print(block)
         if request.method == 'POST':
             tx = Transaction()
             if request.form['recipient']:
@@ -201,6 +198,7 @@ def mine(user_id=None):
 @app.route('/<user_id>/mine/<block_id>', methods=['GET', 'POST'])
 def mine_block(user_id=None, block_id=None):
     if user_id and block_id:
+        # instantiate the new block
         user = session.query(User).filter_by(id=user_id).one()
         block = session.query(Block).filter_by(id=block_id).one()
         new_blk = Block()
@@ -212,6 +210,7 @@ def mine_block(user_id=None, block_id=None):
         session.add(new_blk)
         session.commit()
 
+        # reward the miner 100 units
         miner_tx = Transaction()
         miner_tx.amount = 100
         miner_tx.timestamp = datetime.now()
@@ -227,59 +226,6 @@ def mine_block(user_id=None, block_id=None):
         return render_template("landing.html")
 
 
-# @staticmethod
-# def valid_proof(last_proof, proof):
-#     guess = f'{last_proof}{proof}'.encode()
-#     guess_hash = hashlib.sha256(guess).hexdigest()
-#     return guess_hash[:4] == "0000"
-#
-#
-# def proof_of_work(last_proof):
-#     proof = 0
-#     while valid_proof(last_proof, proof) is False:
-#         proof += 1
-#     return proof
-#
-#
-# def _hash(block):
-#     block_string = json.dumps(block, sort_keys=True).encode()
-#     return hashlib.sha256(block_string).hexdigest()
-
-# def mine(user_id):
-#     last_block = blockchain.last_block
-#     last_proof = last_block['proof']
-#     proof = blockchain.proof_of_work(last_proof)
-#
-#     # reward the miner
-#     blockchain.new_transaction(
-#         sender="0",
-#         recipient=node_identifier,
-#         amount=1,
-#     )
-#
-#     # add new block to the chain
-#     previous_hash = blockchain.hash(last_block)
-#     block = blockchain.new_block(proof, previous_hash)
-#
-#
-# def new_block(proof, previous_hash=None):
-#
-#     block = {
-#         'index': len(self.chain) + 1,
-#         'timestamp': time(),
-#         'transactions': self.current_transactions,
-#         'proof': proof,
-#         'previous_hash': previous_hash or self.hash(self.chain[-1])
-#     }
-#
-#     # reset transaction list
-#     self.current_transactions = []
-#
-#     # append new block to chain
-#     self.chain.append(block)
-#
-#     return block
-
-
+# keeping debug mode on
 if __name__ == '__main__':
     app.run(debug=True)
